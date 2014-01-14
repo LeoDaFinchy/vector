@@ -1,0 +1,1 @@
+Vector drawing library/application that supports varying-width strokes
