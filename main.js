@@ -9,7 +9,6 @@ var VectorApp = {
     height:450,
     stage:null,
     layers:{},
-    backLayer:null,
     frontLayer:null,
 };
 
@@ -20,11 +19,26 @@ function DocReady(event)
         width: VectorApp.width,
         height: VectorApp.height,
     });
-    VectorApp.backLayer = new Kinetic.Layer();
     VectorApp.frontLayer = new Kinetic.Layer();
     VectorApp.layers.Base = new Kinetic.Layer();
     
-    VectorApp.stage.add(VectorApp.backLayer);
     VectorApp.stage.add(VectorApp.layers.Base);
     VectorApp.stage.add(VectorApp.frontLayer);
+    
+    $(".kineticjs-content")
+        .on("mousewheel", onMouseWheel)
+        .on("DOMMouseScroll", onDOMMouseScroll);
+}
+
+function onMouseWheel(event)
+{
+    onMouseScroll(event, event.originalEvent.wheelDelta / 120);
+}
+function onDOMMouseScroll(event)
+{
+    onMouseScroll(event, event.originalEvent.detail / -3);
+}
+function onMouseScroll(event, delta)
+{
+    console.log(delta);
 }
