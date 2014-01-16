@@ -22,11 +22,16 @@ function test(event)
     var y = Bezier.cubicInterpolate(vec[0].y, vec[1].y, vec[2].y, vec[3].y, t);
     
     console.log(x, y);
-    console.log(1, MathUtil.factorial(1));
-    console.log(2, MathUtil.factorial(2));
-    console.log(3, MathUtil.factorial(3));
-    console.log(4, MathUtil.factorial(4));
-    console.log(5, MathUtil.factorial(5));
+    
+    for(var i = 0; i <= 5; i++)
+    {
+        var s = "";
+        for(var j = 0; j <= i; j++)
+        {
+            s += MathUtil.binomialCoefficient(i, j) + ", ";
+        }
+        console.log(s);
+    }
     
     for(var v in x)
     {
