@@ -28,6 +28,19 @@ function DocReady(event)
     $(".kineticjs-content")
         .on("mousewheel", onMouseWheel)
         .on("DOMMouseScroll", onDOMMouseScroll);
+        
+    window.setTimeout(draw, 100);
+}
+
+function draw()
+{
+    for(var l in VectorApp.layers)
+    {
+        VectorApp.layers[l].draw();
+    }
+    VectorApp.frontLayer.draw();
+    
+    window.setTimeout(draw, 100);
 }
 
 function onMouseWheel(event)
