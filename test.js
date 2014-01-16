@@ -16,4 +16,8 @@ function test(event)
     var vec4 = vec2.clone().add(vec3);
     console.log("vec4", vec4);
     console.log("vec2", vec2);
+    vec2.subtract(vec3);
+    console.log("vec2", vec2);
+    V.subtract(vec);
+    console.log(V);
 }
