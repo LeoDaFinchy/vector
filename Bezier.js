@@ -1,3 +1,4 @@
+var MathUtil = MathUtil || {};
 var Bezier = {};
 
 Bezier.linearInterpolate = function(a, b, t)
@@ -45,3 +46,20 @@ Bezier.cubicInterpolate = function (a, b, c, d, t)
     }
     return results;
 };
+Bezier.generalInterpolate = function(v, t)
+{
+    var n = v.length;
+    var results = [];
+    for(var i in t){
+        var tp = t[i];
+        var tn = 1 - tp;
+        
+        results[i] = 0;
+        for(var j in v)
+        {
+            var jn = n - j - 1;
+            results[i] += (MathUtil.binomialCoefficient(n - 1, j) * Math.pow(tn, jn) * Math.pow(tp, j) * v[j]);
+        }
+    }
+    return results;
+}

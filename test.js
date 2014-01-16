@@ -21,20 +21,14 @@ function test(event)
     var x = Bezier.cubicInterpolate(vec[0].x, vec[1].x, vec[2].x, vec[3].x, t);
     var y = Bezier.cubicInterpolate(vec[0].y, vec[1].y, vec[2].y, vec[3].y, t);
     
-    console.log(x, y);
+    var x2 = Bezier.generalInterpolate([vec[0].x, vec[1].x, vec[2].x, vec[3].x], t);
+    var y2 = Bezier.generalInterpolate([vec[0].y, vec[1].y, vec[2].y, vec[3].y], t);
     
-    for(var i = 0; i <= 5; i++)
-    {
-        var s = "";
-        for(var j = 0; j <= i; j++)
-        {
-            s += MathUtil.binomialCoefficient(i, j) + ", ";
-        }
-        console.log(s);
-    }
+    console.log(x, y);
     
     for(var v in x)
     {
         VectorApp.frontLayer.add(new Kinetic.Circle({x: x[v], y: y[v], fill: "lightblue", radius: 5}));
+        VectorApp.frontLayer.add(new Kinetic.Circle({x: x2[v], y: y2[v] + 10, fill: "pink", radius: 5}));
     }
 }
