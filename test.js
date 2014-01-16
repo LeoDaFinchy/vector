@@ -18,6 +18,6 @@ function test(event)
     console.log("vec2", vec2);
     vec2.subtract(vec3);
     console.log("vec2", vec2);
-    V.subtract(vec);
-    console.log(V);
+    
+    console.log(vec, vec4, V.displacement(vec, vec4));
 }

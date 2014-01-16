@@ -19,3 +19,8 @@ function Vector2(x, y)
         return this;
     };
 }
+
+Vector2.displacement = function(a, b)
+{
+    return b.clone().subtract(a);
+};
