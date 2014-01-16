@@ -20,4 +20,5 @@ function test(event)
     console.log("vec2", vec2);
     
     console.log(vec, vec4, V.displacement(vec, vec4));
+    console.log(vec, vec.length());
 }

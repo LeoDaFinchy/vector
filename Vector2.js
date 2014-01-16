@@ -18,6 +18,10 @@ function Vector2(x, y)
         this.y -= v.y;
         return this;
     };
+    this.length = function()
+    {
+        return Math.sqrt((this.x * this.x) + (this.y * this.y));
+    };
 }
 
 Vector2.displacement = function(a, b)
