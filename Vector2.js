@@ -28,3 +28,8 @@ Vector2.displacement = function(a, b)
 {
     return b.clone().subtract(a);
 };
+
+Vector2.distance = function(a, b)
+{
+    return Vector2.displacement(a, b).length();
+};

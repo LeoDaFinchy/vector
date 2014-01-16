@@ -19,6 +19,6 @@ function test(event)
     vec2.subtract(vec3);
     console.log("vec2", vec2);
     
-    console.log(vec, vec4, V.displacement(vec, vec4));
+    console.log(vec, vec4, V.displacement(vec, vec4), V.distance(vec, vec4));
     console.log(vec, vec.length());
 }
