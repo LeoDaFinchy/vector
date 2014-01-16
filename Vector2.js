@@ -6,4 +6,10 @@ function Vector2(x, y)
     {
         return new Vector2(this.x, this.y);
     };
+    this.add = function(v)
+    {
+        this.x += v.x;
+        this.y += v.y;
+        return this;
+    };
 }
