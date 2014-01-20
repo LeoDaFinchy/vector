@@ -13,6 +13,7 @@ var VectorApp = {
     stage:null,
     layers:{},
     frontLayer:null,
+    backLayer:null,
 };
 
 function DocReady(event)
@@ -25,10 +26,20 @@ function DocReady(event)
     VectorApp.top = $('#container').offset().top;
     VectorApp.left = $('#container').offset().left;
     VectorApp.frontLayer = new Kinetic.Layer();
+    VectorApp.backLayer = new Kinetic.Layer();
     VectorApp.layers.Base = new Kinetic.Layer();
     
+    VectorApp.stage.add(VectorApp.backLayer);
     VectorApp.stage.add(VectorApp.layers.Base);
     VectorApp.stage.add(VectorApp.frontLayer);
+
+    VectorApp.backLayer.add(new Kinetic.Rect({
+        x: 0,
+        y: 0,
+        width: VectorApp.width,
+        height: VectorApp.height,
+        fill: '#ffffff'})
+    );
     
     $(".kineticjs-content")
         .on("mousewheel", onMouseWheel)
@@ -41,6 +52,7 @@ function DocReady(event)
 
 function draw()
 {
+    VectorApp.backLayer.draw();
     for(var l in VectorApp.layers)
     {
         VectorApp.layers[l].draw();
