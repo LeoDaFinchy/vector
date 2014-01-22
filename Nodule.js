@@ -6,6 +6,7 @@ function Nodule(x, y)
 		x: x,
 		y: y,
 		radius: 5,
-		fill: "#ff0099",
+		fill: '#ff00ff',
 	});
+	this.setDraggable(true);
 }
