@@ -7,31 +7,55 @@ var Nodule = Nodule || {};
 var V = Vector2;
 
 $('document').ready(test);
+    
+var tracers = [];
+var vec = [
+];
+var t = [];
 
 function test(event)
 {
-    var vec = [
-        new V(300, 200),
-        new V(400, 250),
-        new V(500, 150),
-        new V(600, 200),
-    ];
+    vec.push(new Nodule(VectorApp.width * 0.10, VectorApp.height * 0.50));
+    vec.push(new Nodule(VectorApp.width * 0.05, VectorApp.height * 0.80));
+    vec.push(new Nodule(VectorApp.width * 0.95, VectorApp.height * 0.20));
+    vec.push(new Nodule(VectorApp.width * 0.90, VectorApp.height * 0.50));
     
-    var t = [];
-    for(var i = -2.0; i <= 3.0; i += 0.1)
+    for(var n in vec)
+    {
+        VectorApp.frontLayer.add(vec[n]);
+        vec[n].fill('#ffff00');
+    }
+    
+    for(var i = 0.1; i <= 0.9; i += 0.1)
     {
         t.push(i);
     }
     
-    var x = Bezier.cubicInterpolate(vec[0].x, vec[1].x, vec[2].x, vec[3].x, t);
-    var y = Bezier.cubicInterpolate(vec[0].y, vec[1].y, vec[2].y, vec[3].y, t);
-    
-    var x2 = Bezier.generalInterpolate([vec[0].x, vec[1].x, vec[2].x, vec[3].x], t);
-    var y2 = Bezier.generalInterpolate([vec[0].y, vec[1].y, vec[2].y, vec[3].y], t);
+    var x = Bezier.cubicInterpolate(vec[0].attrs.x, vec[1].attrs.x, vec[2].attrs.x, vec[3].attrs.x, t);
+    var y = Bezier.cubicInterpolate(vec[0].attrs.y, vec[1].attrs.y, vec[2].attrs.y, vec[3].attrs.y, t);
     
     for(var v in x)
     {
-        VectorApp.frontLayer.add(new Kinetic.Circle({x: x[v], y: y[v], fill: "lightblue", radius: 5}));
-        VectorApp.frontLayer.add(new Kinetic.Circle({x: x2[v], y: y2[v] + 10, fill: "pink", radius: 5}));
+        var trace = new Nodule(x[v], y[v]);
+        trace.setDraggable(false);
+        tracers.push(trace);
+        VectorApp.frontLayer.add(trace);
     }
+    
+    window.setTimeout(refreshTracers, 1000/30);
+}
+
+function refreshTracers()
+{
+    var x = Bezier.cubicInterpolate(vec[0].attrs.x, vec[1].attrs.x, vec[2].attrs.x, vec[3].attrs.x, t);
+    var y = Bezier.cubicInterpolate(vec[0].attrs.y, vec[1].attrs.y, vec[2].attrs.y, vec[3].attrs.y, t);
+    
+    console.log(tracers);
+    
+    for(var trace in tracers)
+    {
+        tracers[trace].setAbsolutePosition({x: x[trace], y: y[trace]});
+    }
+    
+    window.setTimeout(refreshTracers, 1000/30);
 }
