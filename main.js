@@ -50,7 +50,7 @@ function DocReady(event)
         ;
     VectorApp.stage.on('click', onClick);
         
-    window.setTimeout(draw, 100);
+    window.setTimeout(draw, 1000/30);
 }
 
 function draw()
@@ -62,7 +62,7 @@ function draw()
     }
     VectorApp.frontLayer.draw();
     
-    window.setTimeout(draw, 100);
+    window.setTimeout(draw, 1000/30);
 }
 
 function onMouseWheel(event)
