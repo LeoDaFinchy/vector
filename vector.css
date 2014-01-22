@@ -1,0 +1,10 @@
+body{
+    margin:0;
+}
+#container{
+    left:50;
+    top:50;
+    right:50;
+    bottom:50;
+    position:absolute;
+}

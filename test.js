@@ -29,8 +29,6 @@ function test(event)
     var x2 = Bezier.generalInterpolate([vec[0].x, vec[1].x, vec[2].x, vec[3].x], t);
     var y2 = Bezier.generalInterpolate([vec[0].y, vec[1].y, vec[2].y, vec[3].y], t);
     
-    console.log(x, y);
-    
     for(var v in x)
     {
         VectorApp.frontLayer.add(new Kinetic.Circle({x: x[v], y: y[v], fill: "lightblue", radius: 5}));

@@ -6,8 +6,8 @@ $('document').ready(DocReady);
 
 
 var VectorApp = {
-    width:800,
-    height:450,
+    width:0,
+    height:0,
     left:0,
     top:0,
     stage:null,
@@ -18,6 +18,8 @@ var VectorApp = {
 
 function DocReady(event)
 {
+    VectorApp.width = $('#container').width();
+    VectorApp.height = $('#container').height();
     VectorApp.stage = new Kinetic.Stage({
         container: 'container',
         width: VectorApp.width,
@@ -38,7 +40,8 @@ function DocReady(event)
         y: 0,
         width: VectorApp.width,
         height: VectorApp.height,
-        fill: '#ffffff'})
+        fill: '#f9f9f9',
+        })
     );
     
     $(".kineticjs-content")
