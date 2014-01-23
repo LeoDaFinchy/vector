@@ -15,6 +15,7 @@ var VectorApp = {
     frontLayer:null,
     backLayer:null,
     nodules:[],
+    selected:null,
     setListeners: function()
     {
         $(".kineticjs-content")
@@ -24,6 +25,14 @@ var VectorApp = {
         VectorApp.stage.on('click', onStageClick);
         
         window.setTimeout(draw, 1000/30);
+    },
+    noduleClicked: function(nodule)
+    {
+        this.selectNodule(nodule);
+    },
+    selectNodule: function(nodule)
+    {
+        this.selected = nodule;
     }
 };
 
