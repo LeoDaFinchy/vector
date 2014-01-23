@@ -8,3 +8,24 @@ body{
     bottom:50;
     position:absolute;
 }
+.button{
+    width:30px;
+    height:30px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #cccccc;
+    background-color: #eeeeee;
+    color: #333333;
+    margin: 1px;
+}
+.button:hover{
+    background-color: #ffffff;
+    color: #000000;
+}
+.button:active{
+    border-width: 2px;
+    margin: 0;
+    border-color: #999999;
+    background-color: #cccccc;
+    color: #000000;
+}
