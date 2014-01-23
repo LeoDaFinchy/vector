@@ -14,6 +14,7 @@ var VectorApp = {
     layers:{},
     frontLayer:null,
     backLayer:null,
+    nodules:[],
 };
 
 function DocReady(event)
@@ -48,8 +49,8 @@ function DocReady(event)
         .on("mousewheel", onMouseWheel)
         .on("DOMMouseScroll", onDOMMouseScroll)
         ;
-    VectorApp.stage.on('click', onClick);
-        
+    VectorApp.stage.on('click', onStageClick);
+    
     window.setTimeout(draw, 1000/30);
 }
 
@@ -77,8 +78,13 @@ function onMouseScroll(event, delta)
 {
     console.log(delta);
 }
-function onClick(event)
+function onStageClick(event)
+{
+    addNoduleAtPointer();
+}
+function addNoduleAtPointer()
 {
     var nod = new Nodule(event.pageX - VectorApp.left, event.pageY - VectorApp.top);
     VectorApp.frontLayer.add(nod);
+    VectorApp.nodules.push(nod);
 }
