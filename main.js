@@ -15,6 +15,16 @@ var VectorApp = {
     frontLayer:null,
     backLayer:null,
     nodules:[],
+    setListeners: function()
+    {
+        $(".kineticjs-content")
+            .on("mousewheel", onMouseWheel)
+            .on("DOMMouseScroll", onDOMMouseScroll)
+            ;
+        VectorApp.stage.on('click', onStageClick);
+        
+        window.setTimeout(draw, 1000/30);
+    }
 };
 
 function DocReady(event)
@@ -45,13 +55,7 @@ function DocReady(event)
         })
     );
     
-    $(".kineticjs-content")
-        .on("mousewheel", onMouseWheel)
-        .on("DOMMouseScroll", onDOMMouseScroll)
-        ;
-    VectorApp.stage.on('click', onStageClick);
-    
-    window.setTimeout(draw, 1000/30);
+    VectorApp.setListeners();
 }
 
 function draw()
