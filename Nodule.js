@@ -3,17 +3,32 @@ var VectorApp = VectorApp || {};
 
 function Nodule(x, y)
 {
-	this.__proto__ = new Kinetic.Circle({
+    Kinetic.Circle.call(this, {
 		x: x,
 		y: y,
 		radius: 5,
 		fill: '#ff00ff',
+		strokeWidth: 1,
+		stroke: "black",
+		strokeEnabled: false,
 	});
 	this.setDraggable(true);
-	this.on('click', noduleClicked(this));
+	this.on('click', this.noduleClicked);
 }
+Kinetic.Util.extend(Nodule, Kinetic.Circle);
 
-function noduleClicked(nodule)
+Nodule.prototype.setSelected = function()
 {
-    VectorApp.noduleClicked(nodule);
-}
+    this.strokeEnabled(true);
+};
+
+Nodule.prototype.setNotSelected = function()
+{
+    this.strokeEnabled(false);
+};
+
+Nodule.prototype.noduleClicked = function(event)
+{
+    VectorApp.noduleClicked(this);
+    event.cancelBubble = true;
+};

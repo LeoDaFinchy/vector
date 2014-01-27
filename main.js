@@ -32,7 +32,12 @@ var VectorApp = {
     },
     selectNodule: function(nodule)
     {
+        if(this.selected)
+        {
+            this.selected.setNotSelected();
+        }
         this.selected = nodule;
+        nodule.setSelected();
     }
 };
 
