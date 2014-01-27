@@ -29,6 +29,6 @@ Nodule.prototype.setNotSelected = function()
 
 Nodule.prototype.noduleClicked = function(event)
 {
-    VectorApp.noduleClicked(this, event);
+    VectorApp.selected.select(this, event);
     event.cancelBubble = true;
 };
