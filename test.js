@@ -50,8 +50,6 @@ function refreshTracers()
     var x = Bezier.cubicInterpolate(vec[0].attrs.x, vec[1].attrs.x, vec[2].attrs.x, vec[3].attrs.x, t);
     var y = Bezier.cubicInterpolate(vec[0].attrs.y, vec[1].attrs.y, vec[2].attrs.y, vec[3].attrs.y, t);
     
-    console.log(tracers);
-    
     for(var trace in tracers)
     {
         tracers[trace].setAbsolutePosition({x: x[trace], y: y[trace]});
