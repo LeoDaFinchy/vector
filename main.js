@@ -15,7 +15,7 @@ var VectorApp = {
     frontLayer:null,
     backLayer:null,
     nodules:[],
-    selected:null,
+    selected:[],
     setListeners: function()
     {
         $(".kineticjs-content")
@@ -26,18 +26,67 @@ var VectorApp = {
         
         window.setTimeout(draw, 1000/30);
     },
-    noduleClicked: function(nodule)
+    noduleClicked: function(nodule, event)
     {
-        this.selectNodule(nodule);
-    },
-    selectNodule: function(nodule)
-    {
-        if(this.selected)
+        if(event.ctrlKey)
         {
-            this.selected.setNotSelected();
+            this.toggleSelectNodule(nodule);
         }
-        this.selected = nodule;
+        else
+        {
+            if(event.shiftKey)
+            {
+                this.selectNoduleInclusively(nodule);
+            }
+            else
+            {
+                this.selectNoduleExclusively(nodule);
+            }
+        }
+    },
+    toggleSelectNodule: function(nodule)
+    {
+        var i = this.selected.indexOf(nodule);
+        if(i === -1)
+        {
+            this.selectNoduleInclusively(nodule);
+        }
+        else
+        {
+            this.deselectNodule(nodule);
+        }
+    },
+    selectNoduleInclusively: function(nodule)
+    {
+        var i = this.selected.indexOf(nodule);
+        if(i === -1)
+        {
+            this.selected.push(nodule);
+            nodule.setSelected();
+        }
+    },
+    selectNoduleExclusively: function(nodule)
+    {
+        this.deselectAllNodules();
+        this.selected = [nodule];
         nodule.setSelected();
+    },
+    deselectAllNodules: function(nodule)
+    {
+        for(var s in this.selected)
+        {
+            this.selected[s].setNotSelected();
+        }
+        this.selected = [];
+    },
+    deselectNodule: function(nodule)
+    {
+        var i = this.selected.indexOf(nodule);
+        if(i >= 0)
+        {
+            this.nodules.splice(i, 1);
+            nodule.setNotSelected();
+        }
     }
 };
 
