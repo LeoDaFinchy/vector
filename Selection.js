@@ -7,14 +7,12 @@ Selection.prototype.select = function(item, event)
 {
     if(event.ctrlKey)
     {
-        console.log("ctrl")
         this.toggle(item);
     }
     else
     {
         if(event.shiftKey)
         {
-        console.log("shift")
             this.add(item);
         }
         else
