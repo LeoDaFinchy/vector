@@ -2,8 +2,9 @@ var Kinetic = Kinetic || {};
 
 function Stroke(nodules)
 {
-    this.__proto__ = new Kinetic.Shape({
-        fill: '#000000',
-    });
+    Kinetic.Shape.call(this, {
+		fill: '#000000',
+	});
     this.nodules = nodules;
 }
+Kinetic.Util.extend(Stroke, Kinetic.Circle);
