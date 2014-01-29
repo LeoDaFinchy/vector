@@ -41,7 +41,6 @@ Selection.prototype.toggle = function(item)
 
 Selection.prototype.add = function(item)
 {
-    console.log("add", this.has(item))
     if(!this.has(item))
     {
         this.selected.push(item);
