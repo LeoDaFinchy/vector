@@ -1,5 +1,6 @@
 var Kinetic = Kinetic || {};
 var Nodule = Nodule || {};
+var Stroke = Stroke || {};
 var Selection = Selection || {};
 var $ = $ || {};
 
@@ -16,6 +17,7 @@ var VectorApp = {
     frontLayer:null,
     backLayer:null,
     nodules:[],
+    strokes:[],
     selected:null,
     setListeners: function()
     {
@@ -24,6 +26,7 @@ var VectorApp = {
             .on("DOMMouseScroll", onDOMMouseScroll)
             ;
         VectorApp.stage.on('click', onStageClick);
+        $(".button").click(VectorApp.addStroke);
         
         window.setTimeout(draw, 1000/30);
     },
@@ -95,4 +98,12 @@ function addNoduleAtPointer()
     var nod = new Nodule(event.pageX - VectorApp.left, event.pageY - VectorApp.top);
     VectorApp.frontLayer.add(nod);
     VectorApp.nodules.push(nod);
+}
+VectorApp.addStroke = function()
+{
+    if(VectorApp.selected.selected.length > 1)
+    {
+        var stroke = new Stroke(VectorApp.selected.selected);
+        VectorApp.layers.Base.add(stroke);
+    }
 }
