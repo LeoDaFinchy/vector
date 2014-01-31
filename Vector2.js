@@ -22,6 +22,19 @@ function Vector2(x, y)
     {
         return Math.sqrt((this.x * this.x) + (this.y * this.y));
     };
+    this.normalise = function()
+    {
+        var len = this.length();
+        this.x /= len;
+        this.y /= len;
+        return this;
+    };
+    this.scale = function(s)
+    {
+        this.x *= s;
+        this.y *= s;
+        return this;
+    };
 }
 
 Vector2.displacement = function(a, b)
