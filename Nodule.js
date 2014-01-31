@@ -1,5 +1,6 @@
 var Kinetic = Kinetic || {};
 var VectorApp = VectorApp || {};
+var Vector2 = Vector2 || {};
 
 function Nodule(x, y)
 {
@@ -31,4 +32,9 @@ Nodule.prototype.noduleClicked = function(event)
 {
     VectorApp.selected.select(this, event);
     event.cancelBubble = true;
+};
+
+Nodule.prototype.getPosition = function()
+{
+    return new Vector2(this.x(), this.y());
 };
