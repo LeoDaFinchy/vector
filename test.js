@@ -41,12 +41,12 @@ function test(event)
         tracers.push(trace);
         VectorApp.frontLayer.add(trace);
     }
-	
-	VectorApp.selected.selected.push(vec[0]);
-	VectorApp.selected.selected.push(vec[1]);
-	VectorApp.selected.selected.push(vec[2]);
-	VectorApp.selected.selected.push(vec[3]);
-	VectorApp.addStroke();
+    
+    VectorApp.selected.selected.push(vec[0]);
+    VectorApp.selected.selected.push(vec[1]);
+    VectorApp.selected.selected.push(vec[2]);
+    VectorApp.selected.selected.push(vec[3]);
+    VectorApp.addStroke();
     
     window.setTimeout(refreshTracers, 1000/30);
 }

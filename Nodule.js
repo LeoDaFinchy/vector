@@ -4,16 +4,16 @@ var VectorApp = VectorApp || {};
 function Nodule(x, y)
 {
     Kinetic.Circle.call(this, {
-		x: x,
-		y: y,
-		radius: 20,
-		fill: '#ff00ff',
-		strokeWidth: 1,
-		stroke: "black",
-		strokeEnabled: false,
-	});
-	this.setDraggable(true);
-	this.on('click', this.noduleClicked);
+        x: x,
+        y: y,
+        radius: 20,
+        fill: '#ff00ff',
+        strokeWidth: 1,
+        stroke: "black",
+        strokeEnabled: false,
+    });
+    this.setDraggable(true);
+    this.on('click', this.noduleClicked);
 }
 Kinetic.Util.extend(Nodule, Kinetic.Circle);
 
