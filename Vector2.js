@@ -35,6 +35,14 @@ function Vector2(x, y)
         this.y *= s;
         return this;
     };
+    this.normal = function()
+    {
+        return new Vector2(this.y, -this.x).normalise();
+    };
+    this.angle = function()
+    {
+        return Math.atan2(this.y, this.x);
+    };
 }
 
 Vector2.displacement = function(a, b)
