@@ -6,7 +6,7 @@ function Nodule(x, y)
     Kinetic.Circle.call(this, {
 		x: x,
 		y: y,
-		radius: 5,
+		radius: 20,
 		fill: '#ff00ff',
 		strokeWidth: 1,
 		stroke: "black",
