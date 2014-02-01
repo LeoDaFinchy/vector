@@ -17,23 +17,24 @@ function Stroke(nodules)
         seg = seg.next.segment;
     }
     
-    this.draw.points = [];
-    this.draw.commands = [];
+    this.draw = {
+        points: [],
+        commands: [],
+    };
     
     this.refreshDrawFunc();
 }
 Kinetic.Util.extend(Stroke, Kinetic.Circle);
 
-Stroke.prototype.draw = {
-    commandsEnum: {
-        LINETO: 0,
-        ARC: 1,
-        BEZIERCURVETO: 2,
-    },
+Stroke.prototype.drawCommandsEnum = {
+    LINETO: 0,
+    ARC: 1,
+    BEZIERCURVETO: 2,
 };
 
 Stroke.prototype.drawFunc = function(context)
 {
+    if(this.draw.commands.length < 1) return;
     context.beginPath();
     context.moveTo(this.draw.points[0].x, this.draw.points[0].y);
     var p = 0;
@@ -41,17 +42,17 @@ Stroke.prototype.drawFunc = function(context)
     var pts = this.draw.points;
     while(c < this.draw.commands.length)
     {
-        if(this.draw.commands[c] == this.draw.commandsEnum.LINETO)
+        if(this.draw.commands[c] == this.drawCommandsEnum.LINETO)
         {
             context.lineTo(pts[p].x, pts[p].y);
             p++;
         }
-        else if(this.draw.commands[c] == this.draw.commandsEnum.BEZIERCURVETO)
+        else if(this.draw.commands[c] == this.drawCommandsEnum.BEZIERCURVETO)
         {
             context.bezierCurveTo(pts[p].x, pts[p].y, pts[p + 1].x, pts[p + 1].y, pts[p + 2].x, pts[p + 2].y);
             p += 3;
         }
-        else if(this.draw.commands[c] == this.draw.commandsEnum.ARC)
+        else if(this.draw.commands[c] == this.drawCommandsEnum.ARC)
         {
             context.arc(pts[p].x, pts[p].y, pts[p + 1].radius, pts[p + 1].start, pts[p + 1].end);
             p += 2;
@@ -83,7 +84,9 @@ Stroke.prototype.refreshDrawFunc = function()
 
 Stroke.prototype.update = function()
 {
+    console.log("before", this.draw.commands);
     this.refreshDrawFunc();
+    console.log("after", this.draw.commands);
 };
 
 /******************************************************************************/
@@ -132,7 +135,7 @@ StrokeSegment.prototype.addTo = function(points, commands, next, prev)
             }
             points.push(new Vector2(this.nodule.x(), this.nodule.y()));
             points.push({radius: this.nodule.radius(), start: start, end: end});
-            commands.push(Stroke.prototype.draw.commandsEnum.ARC);
+            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
         }
     }
     else //provide the join
@@ -150,12 +153,12 @@ StrokeSegment.prototype.addTo = function(points, commands, next, prev)
             }
             points.push(new Vector2(this.nodule.x(), this.nodule.y()));
             points.push({radius: this.nodule.radius(), start: start, end: end});
-            commands.push(Stroke.prototype.draw.commandsEnum.ARC);
+            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
         }
     }
     if(this.type == this.typeEnum.LINE)
     {
-        commands.push(Stroke.prototype.draw.commandsEnum.LINETO);
+        commands.push(Stroke.prototype.drawCommandsEnum.LINETO);
         points.push(next.segment.nodule.getPosition().add(Vector2.displacement(this.nodule.getPosition(), next.segment.nodule.getPosition()).normal().scale(next.segment.nodule.radius())));
     }
 };
