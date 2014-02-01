@@ -16,7 +16,6 @@ function Stroke(nodules)
         seg.append(new StrokeSegment(this, nodules[n]));
         seg = seg.next.segment;
     }
-    //console.log(this.segment);
     
     this.draw.points = [];
     this.draw.commands = [];
@@ -82,10 +81,20 @@ Stroke.prototype.refreshDrawFunc = function()
     }
 };
 
+Stroke.prototype.update = function()
+{
+    this.refreshDrawFunc();
+};
+
+/******************************************************************************/
+/*                  StrokeSegment                                             */
+/******************************************************************************/
+
 function StrokeSegment(stroke, nodule)
 {
     this.stroke = stroke;
     this.nodule = nodule;
+    nodule.strokes.push(stroke);
     this.type = this.typeEnum.LINE;
     this.next = {
         join: this.joinEnum.ROUND,

@@ -14,7 +14,9 @@ function Nodule(x, y)
         strokeEnabled: false,
     });
     this.setDraggable(true);
-    this.on('click', this.noduleClicked);
+    this.on('click', this.clicked);
+    this.on('dragmove', this.moved);
+    this.strokes = [];
 }
 Kinetic.Util.extend(Nodule, Kinetic.Circle);
 
@@ -28,13 +30,26 @@ Nodule.prototype.setNotSelected = function()
     this.strokeEnabled(false);
 };
 
-Nodule.prototype.noduleClicked = function(event)
+Nodule.prototype.clicked = function(event)
 {
     VectorApp.selected.select(this, event);
     event.cancelBubble = true;
 };
 
+Nodule.prototype.moved = function(event)
+{
+    this.updateStrokes();
+};
+
 Nodule.prototype.getPosition = function()
 {
     return new Vector2(this.x(), this.y());
+};
+
+Nodule.prototype.updateStrokes = function()
+{
+    for(var s = 0; s < this.strokes.length; s++)
+    {
+        this.strokes[s].update();
+    }
 };
