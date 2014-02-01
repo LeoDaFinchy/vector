@@ -106,6 +106,11 @@ function onDOMMouseScroll(event)
 function onMouseScroll(event, delta)
 {
     console.log(delta);
+    if(VectorApp.hovered)
+    {
+        var rad = VectorApp.hovered.getRadius();
+        VectorApp.hovered.modRadius(rad + delta);
+    }
 }
 function onStageClick(event)
 {

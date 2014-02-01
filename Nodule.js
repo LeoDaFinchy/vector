@@ -67,6 +67,13 @@ Nodule.prototype.getPosition = function()
     return new Vector2(this.x(), this.y());
 };
 
+Nodule.prototype.modRadius = function(r)
+{
+    //this.
+    Kinetic.Circle.prototype.radius.call(this, r);
+    this.updateStrokes();
+};
+
 Nodule.prototype.updateStrokes = function()
 {
     for(var s = 0; s < this.strokes.length; s++)
