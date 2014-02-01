@@ -84,9 +84,7 @@ Stroke.prototype.refreshDrawFunc = function()
 
 Stroke.prototype.update = function()
 {
-    console.log("before", this.draw.commands);
     this.refreshDrawFunc();
-    console.log("after", this.draw.commands);
 };
 
 /******************************************************************************/
