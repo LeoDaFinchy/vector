@@ -23,7 +23,6 @@ function test(event)
     for(var n in vec)
     {
         VectorApp.frontLayer.add(vec[n]);
-        vec[n].fill('#ffff00');
     }
     
     for(var i = 0.1; i <= 0.9; i += 0.1)

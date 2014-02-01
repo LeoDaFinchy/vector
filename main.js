@@ -19,6 +19,7 @@ var VectorApp = {
     nodules:[],
     strokes:[],
     selected:null,
+    hovered:null,
     setListeners: function()
     {
         $(".kineticjs-content")
@@ -30,6 +31,23 @@ var VectorApp = {
         
         window.setTimeout(draw, 1000/30);
     },
+    mouseout: function(thing)
+    {
+        if(thing == this.hovered)
+        {
+            this.hovered = null;
+            thing.setNotHovered();
+        }
+    },
+    mouseover: function(thing)
+    {   
+        if(this.hovered)
+        {
+            this.hovered.setNotHovered();
+        }
+        this.hovered = thing;
+        thing.setHovered();
+    }
 };
 
 function DocReady(event)

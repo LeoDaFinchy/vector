@@ -8,14 +8,15 @@ function Nodule(x, y)
         x: x,
         y: y,
         radius: 20,
-        fill: '#ff00ff',
         strokeWidth: 1,
         stroke: "black",
         strokeEnabled: false,
     });
     this.setDraggable(true);
+    this.setNotHovered();
     this.on('click', this.clicked);
     this.on('dragmove', this.moved);
+    this.on('mouseover', this.mouseover);
     this.strokes = [];
 }
 Kinetic.Util.extend(Nodule, Kinetic.Circle);
@@ -30,6 +31,16 @@ Nodule.prototype.setNotSelected = function()
     this.strokeEnabled(false);
 };
 
+Nodule.prototype.setHovered = function()
+{
+    this.fill('#99ccff');
+};
+
+Nodule.prototype.setNotHovered = function()
+{
+    this.fill('#336699');
+};
+
 Nodule.prototype.clicked = function(event)
 {
     VectorApp.selected.select(this, event);
@@ -39,6 +50,16 @@ Nodule.prototype.clicked = function(event)
 Nodule.prototype.moved = function(event)
 {
     this.updateStrokes();
+};
+
+Nodule.prototype.mouseover = function(event)
+{
+    VectorApp.mouseover(this);
+};
+
+Nodule.prototype.mouseout = function(event)
+{
+    VectorApp.mouseout(this);
 };
 
 Nodule.prototype.getPosition = function()
