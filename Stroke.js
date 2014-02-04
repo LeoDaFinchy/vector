@@ -7,14 +7,14 @@ function Stroke(nodules)
         fill: 'black',
         stroke: 'black',
     });
-    this.segment = new StrokeSegment(this, nodules[0]);
+    this.segment = new StrokeSegment(this, nodules[0], StrokeSegment.prototype.typeEnum.LINE);
+    this.lastSegment = this.segment;
     this.sceneFunc(this.drawFunc);
     
-    var seg = this.segment;
     for(var n = 1; n < nodules.length; n++)
     {
-        seg.append(new StrokeSegment(this, nodules[n]));
-        seg = seg.next.segment;
+        this.lastSegment.append(new StrokeSegment(this, nodules[n], StrokeSegment.prototype.typeEnum.LINE));
+        this.lastSegment = this.lastSegment.next.segment;
     }
     
     this.draw = {
@@ -91,12 +91,12 @@ Stroke.prototype.update = function()
 /*                  StrokeSegment                                             */
 /******************************************************************************/
 
-function StrokeSegment(stroke, nodule)
+function StrokeSegment(stroke, nodule, type)
 {
     this.stroke = stroke;
     this.nodule = nodule;
     nodule.strokes.push(stroke);
-    this.type = this.typeEnum.LINE;
+    this.type = type;
     this.next = {
         join: this.joinEnum.ROUND,
         segment: null,
@@ -154,10 +154,16 @@ StrokeSegment.prototype.addTo = function(points, commands, next, prev)
             commands.push(Stroke.prototype.drawCommandsEnum.ARC);
         }
     }
+    
     if(this.type == this.typeEnum.LINE)
     {
         commands.push(Stroke.prototype.drawCommandsEnum.LINETO);
         points.push(next.segment.nodule.getPosition().add(Vector2.displacement(this.nodule.getPosition(), next.segment.nodule.getPosition()).normal().scale(next.segment.nodule.radius())));
+    }
+    else if(this.type == this.typeEnum.CURVE)
+    {
+        commands.push(Stroke.prototype.drawCommandsEnum.BEZIERCURVETO);
+        
     }
 };
 
