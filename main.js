@@ -18,6 +18,8 @@ var VectorApp = {
     backLayer:null,
     nodules:[],
     strokes:[],
+    tools:{},
+    activeTool:null,
     selected:null,
     hovered:null,
     setListeners: function()
@@ -26,8 +28,7 @@ var VectorApp = {
             .on("mousewheel", onMouseWheel)
             .on("DOMMouseScroll", onDOMMouseScroll)
             ;
-        VectorApp.stage.on('click', onStageClick);
-        $(".button").click(VectorApp.addStroke);
+        VectorApp.stage.on('click', this.toolClick);
         
         window.setTimeout(draw, 1000/30);
     },
@@ -47,11 +48,29 @@ var VectorApp = {
         }
         this.hovered = thing;
         thing.setHovered();
-    }
+    },
+    addTool: function(tool)
+    {
+        $('#toolbox').append('<div class="button" id="' + tool.id + '">' + tool.label + '</div>');
+        this.tools[tool.id] = tool;
+        $('#' + tool.id).click({tool: tool}, this.activateTool);
+    },
+    activateTool: function(event)
+    {
+        VectorApp.activeTool = event.data.tool;
+    },
+    toolClick: function(event)
+    {
+        if(VectorApp.activeTool)
+        {
+            VectorApp.activeTool.click(event);
+        }
+    },
 };
 
 function DocReady(event)
 {
+    $.getScript("tools/NodeSpawner.js");
     VectorApp.width = $('#container').width();
     VectorApp.height = $('#container').height();
     VectorApp.stage = new Kinetic.Stage({
