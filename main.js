@@ -131,16 +131,6 @@ function onMouseScroll(event, delta)
         VectorApp.hovered.modRadius(rad + delta);
     }
 }
-function onStageClick(event)
-{
-    addNoduleAtPointer();
-}
-function addNoduleAtPointer()
-{
-    var nod = new Nodule(event.pageX - VectorApp.left, event.pageY - VectorApp.top);
-    VectorApp.frontLayer.add(nod);
-    VectorApp.nodules.push(nod);
-}
 VectorApp.addStroke = function()
 {
     if(VectorApp.selected.selected.length > 1)
