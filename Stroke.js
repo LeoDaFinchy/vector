@@ -32,10 +32,16 @@ Stroke.prototype.drawCommandsEnum = {
     BEZIERCURVETO: 2,
 };
 
-Stroke.prototype.append = function(nodule, type)
+Stroke.prototype.addToEnd = function(nodule, type)
 {
-    this.lastSegment.append(new StrokeSegment(this, nodule, type));
+    this.lastSegment.addToEnd(new StrokeSegment(this, nodule, type));
     this.lastSegment = this.lastSegment.next.segment;
+};
+
+Stroke.prototype.takeFromEnd = function()
+{
+    this.lastSegment = this.lastSegment.prev.segment;
+    this.lastSegment.takeFromEnd();
 };
 
 Stroke.prototype.drawFunc = function(context)
@@ -113,10 +119,18 @@ function StrokeSegment(stroke, nodule, type)
     };
 }
 
-StrokeSegment.prototype.append = function(segment)
+StrokeSegment.prototype.addToEnd = function(segment)
 {
     this.next.segment = segment;
     segment.prev.segment = this;
+    return segment;
+};
+
+StrokeSegment.prototype.takeFromEnd = function()
+{
+    var segment = this.next.segment;
+    this.next.segment = null;
+    segment.prev.segment = null;
     return segment;
 };
 

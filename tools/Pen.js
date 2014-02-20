@@ -19,7 +19,7 @@ var Pen = {
                 Pen.stroke = new Stroke([Pen.nextNode]);
                 VectorApp.layers.Base.add(Pen.stroke);
                 Pen.nextNode = Pen.addNoduleAtPointer();
-                Pen.stroke.append(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
+                Pen.stroke.addToEnd(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
                 Pen.nextNode.startDrag();
             }
             else
@@ -27,7 +27,7 @@ var Pen = {
                 console.log("continueStroke");
                 Pen.nextNode.stopDrag();
                 Pen.nextNode = Pen.addNoduleAtPointer();
-                Pen.stroke.append(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
+                Pen.stroke.addToEnd(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
                 Pen.nextNode.startDrag();
             }
         }
@@ -45,7 +45,10 @@ var Pen = {
     {
         if(Pen.nextNode)
         {
+            Pen.stroke.takeFromEnd();
+            Pen.stroke.update();
             Pen.nextNode.stopDrag();
+            Pen.removeNodule(Pen.nextNode);
             Pen.nextNode = null;
             Pen.stroke = null;
         }
@@ -59,5 +62,12 @@ Pen.addNoduleAtPointer = function()
     var nod = new Nodule(event.pageX - VectorApp.left, event.pageY - VectorApp.top);
     VectorApp.frontLayer.add(nod);
     VectorApp.nodules.push(nod);
+    return nod;
+};
+
+Pen.removeNodule = function(nod)
+{
+    VectorApp.nodules = VectorApp.nodules.splice(VectorApp.nodules.indexOf(nod), 1);
+    nod.remove();
     return nod;
 };
