@@ -27,33 +27,37 @@ var VectorApp = {
         $(".kineticjs-content")
             .on("mousewheel", onMouseWheel)
             .on("DOMMouseScroll", onDOMMouseScroll)
+            .on('contextmenu', VectorApp.toolContextMenu)
+            .on('dragstart', VectorApp.toolDragStart)
+            .on('click', VectorApp.toolClick)
             ;
-        VectorApp.stage.on('click', this.toolClick);
+        VectorApp.stage.on('mousedown', VectorApp.toolMouseDown);
+        VectorApp.stage.on('mousemove', VectorApp.toolMouseMove);
         
         window.setTimeout(draw, 1000/30);
     },
     mouseout: function(thing)
     {
-        if(thing == this.hovered)
+        if(thing == VectorApp.hovered)
         {
-            this.hovered = null;
+            VectorApp.hovered = null;
             thing.setNotHovered();
         }
     },
     mouseover: function(thing)
     {   
-        if(this.hovered)
+        if(VectorApp.hovered)
         {
-            this.hovered.setNotHovered();
+            VectorApp.hovered.setNotHovered();
         }
-        this.hovered = thing;
+        VectorApp.hovered = thing;
         thing.setHovered();
     },
     addTool: function(tool)
     {
         $('#toolbox').append('<div class="button" id="' + tool.id + '">' + tool.label + '</div>');
-        this.tools[tool.id] = tool;
-        $('#' + tool.id).click({tool: tool}, this.activateTool);
+        VectorApp.tools[tool.id] = tool;
+        $('#' + tool.id).click({tool: tool}, VectorApp.activateTool);
     },
     activateTool: function(event)
     {
@@ -61,16 +65,46 @@ var VectorApp = {
     },
     toolClick: function(event)
     {
-        if(VectorApp.activeTool)
+        if(VectorApp.activeTool && VectorApp.activeTool.click)
         {
             VectorApp.activeTool.click(event);
         }
     },
+    toolMouseDown: function(event)
+    {
+        if(VectorApp.activeTool && VectorApp.activeTool.mouseDown)
+        {
+            VectorApp.activeTool.mouseDown(event);
+        }
+    },
+    toolMouseMove: function(event)
+    {
+        if(VectorApp.activeTool && VectorApp.activeTool.mouseMove)
+        {
+            VectorApp.activeTool.mouseMove(event);
+        }
+    },
+    toolContextMenu: function(event)
+    {
+        if(VectorApp.activeTool && VectorApp.activeTool.mouseMove)
+        {
+            VectorApp.activeTool.contextMenu(event);
+        }
+        
+        event.preventDefault();
+        return false;
+    },
+    toolDragStart: function(event)
+    {
+        console.log("drag");
+    }
 };
 
 function DocReady(event)
 {
     $.getScript("tools/NodeSpawner.js");
+    $.getScript("tools/Pen.js");
+    
     VectorApp.width = $('#container').width();
     VectorApp.height = $('#container').height();
     VectorApp.stage = new Kinetic.Stage({

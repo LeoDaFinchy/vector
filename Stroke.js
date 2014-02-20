@@ -32,6 +32,12 @@ Stroke.prototype.drawCommandsEnum = {
     BEZIERCURVETO: 2,
 };
 
+Stroke.prototype.append = function(nodule, type)
+{
+    this.lastSegment.append(new StrokeSegment(this, nodule, type));
+    this.lastSegment = this.lastSegment.next.segment;
+};
+
 Stroke.prototype.drawFunc = function(context)
 {
     if(this.draw.commands.length < 1) return;
