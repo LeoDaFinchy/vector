@@ -6,7 +6,7 @@ var MathUtil = MathUtil || {};
 var Nodule = Nodule || {};
 var V = Vector2;
 
-$('document').ready(test);
+//$('document').ready(test);
     
 var tracers = [];
 var vec = [
