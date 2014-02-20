@@ -6,13 +6,13 @@ var NodeSpawner = {
     id: "nodeSpawner",
     click: function(event)
     {
-        addNoduleAtPointer();
+        NodeSpawner.addNoduleAtPointer();
     },
 };
 
 VectorApp.addTool(NodeSpawner);
 
-function addNoduleAtPointer()
+NodeSpawner.addNoduleAtPointer = function()
 {
     var nod = new Nodule(event.pageX - VectorApp.left, event.pageY - VectorApp.top);
     VectorApp.frontLayer.add(nod);
