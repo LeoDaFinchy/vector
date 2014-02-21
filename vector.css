@@ -17,6 +17,7 @@ body{
     background-color: #eeeeee;
     color: #333333;
     margin: 1px;
+    font-size: 8;
 }
 .button:hover{
     background-color: #ffffff;
