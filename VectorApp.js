@@ -58,6 +58,10 @@ var VectorApp = {
     activateTool: function(event)
     {
         VectorApp.activeTool = event.data.tool;
+        if(VectorApp.activeTool && VectorApp.activeTool.activate)
+        {
+            VectorApp.activeTool.activate(event);
+        }
     },
     toolClick: function(event)
     {
