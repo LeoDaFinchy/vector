@@ -27,6 +27,9 @@ var VectorApp = {
         VectorApp.stage.on('mousedown', VectorApp.toolMouseDown);
         VectorApp.stage.on('mousemove', VectorApp.toolMouseMove);
         
+        VectorApp.stage.setDraggable(true);
+        VectorApp.stage.dragBoundFunc(function(){return{x:this.getAbsolutePosition().x, y:this.getAbsolutePosition().y}});
+        
         window.setTimeout(draw, 1000/30);
     },
     mouseout: function(thing)
