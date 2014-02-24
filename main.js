@@ -13,6 +13,7 @@ function DocReady(event)
 {
     $.getScript("tools/NodeSpawner.js");
     $.getScript("tools/Pen.js");
+    $.getScript("tools/Select.js");
     
     VectorApp.width = $('#container').width();
     VectorApp.height = $('#container').height();
