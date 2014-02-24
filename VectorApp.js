@@ -21,11 +21,11 @@ var VectorApp = {
             .on("mousewheel", onMouseWheel)
             .on("DOMMouseScroll", onDOMMouseScroll)
             .on('contextmenu', VectorApp.toolContextMenu)
-            .on('dragstart', VectorApp.toolDragStart)
             .on('click', VectorApp.toolClick)
             ;
         VectorApp.stage.on('mousedown', VectorApp.toolMouseDown);
         VectorApp.stage.on('mousemove', VectorApp.toolMouseMove);
+        VectorApp.stage.on('dragstart', VectorApp.toolDragStart);
         
         VectorApp.stage.setDraggable(true);
         VectorApp.stage.dragBoundFunc(function(){return{x:this.getAbsolutePosition().x, y:this.getAbsolutePosition().y}});
