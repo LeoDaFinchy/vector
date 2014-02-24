@@ -1,47 +1,18 @@
 var Vector2 = Vector2 || {};
 var Stroke = Stroke || {};
-var StrokeNode = StrokeNode || {};
+var StrokeSegment = StrokeSegment || {};
 
-/*function StrokeSegment(stroke, nodule, type)
+function StrokeNode(stroke, nodule)
 {
     this.stroke = stroke;
     this.nodule = nodule;
-    nodule.strokes.push(stroke);
-    this.type = type;
-    this.next = {
-        join: this.joinEnum.ROUND,
-        segment: null,
-    };
-    this.prev = {
-        join: this.joinEnum.ROUND,
-        segment: null,
-    };
-}*/
-
-function StrokeSegment(stroke, a, b)
-{
-    this.stroke = stroke;
-    this.prev = a; a.next = this;
-    this.next = b; b.prev = this;
-    this.type = this.typeEnum.LINE;
+    nodule.strokeNodes.push(this);
+    this.type = this.typeEnum.ROUND;
+    this.next = null;
+    this.prev = null;
 }
 
-/*StrokeSegment.prototype.addToEnd = function(segment)
-{
-    this.next.segment = segment;
-    segment.prev.segment = this;
-    return segment;
-};
-
-StrokeSegment.prototype.takeFromEnd = function()
-{
-    var segment = this.next.segment;
-    this.next.segment = null;
-    segment.prev.segment = null;
-    return segment;
-};*/
-
-StrokeSegment.prototype.addDrawCommands = function(points, commands, forward)
+StrokeNode.prototype.addDrawCommands = function(points, commands, forward)
 {
     var next, prev;
     if(forward)
@@ -95,49 +66,54 @@ StrokeSegment.prototype.addDrawCommands = function(points, commands, forward)
         }
     }*/
     
-    if(this.type == this.typeEnum.LINE)
+    var start, prevNode, end, nextNode, normal;
+    if(next && prev)
     {
-        commands.push(Stroke.prototype.drawCommandsEnum.LINETO);
-        points.push(next.nodule.getPosition().add(Vector2.displacement(prev.nodule.getPosition(), next.nodule.getPosition()).normal().scale(next.nodule.radius())));
-        //points.push(next.segment.nodule.getPosition().add(Vector2.displacement(this.nodule.getPosition(), next.segment.nodule.getPosition()).normal().scale(next.segment.nodule.radius())));
-    }
-    /*else if(this.type == this.typeEnum.CURVE)
-    {
-        commands.push(Stroke.prototype.drawCommandsEnum.BEZIERCURVETO);
-        
-    }*/
-};
-
-StrokeSegment.prototype.getApproachNode = function(node)
-{
-    if(node == this.next)
-    {
-        if(this.type == this.typeEnum.LINE)
+        if(this.type == this.typeEnum.ROUND)
         {
-            return this.prev.nodule;
+            prevNode = prev.getApproachNode(this);
+            normal = Vector2.displacement(prevNode.getPosition(), this.nodule.getPosition()).normal();
+            start = normal.angle();                                                             //Needs refinement, doesn't take nodule size difference into account
+            
+            nextNode = next.getApproachNode(this);
+            normal = Vector2.displacement(this.nodule.getPosition(), nextNode.getPosition()).normal();
+            end = normal.angle();
+            
+            points.push(new Vector2(this.nodule.x(), this.nodule.y()));
+            points.push({radius: this.nodule.radius(), start: start, end: end});
+            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
         }
     }
     else
     {
-        if(this.type == this.typeEnum.LINE)
+        var nearNode;
+        if(this.type == this.typeEnum.ROUND)
         {
-            return this.next.nodule;
+            if(next)
+            {
+                nearNode = next.getApproachNode(this);
+            }
+            else
+            {
+                nearNode = prev.getApproachNode(this);
+            }
+            normal = Vector2.displacement(nearNode.getPosition(), this.nodule.getPosition()).normal();
+            start = normal.angle();                                                             //Needs refinement, doesn't take nodule size difference into account
+            
+            normal = Vector2.displacement(this.nodule.getPosition(), nearNode.getPosition()).normal();
+            end = normal.angle();
+            
+            points.push(new Vector2(this.nodule.x(), this.nodule.y()));
+            points.push({radius: this.nodule.radius(), start: start, end: end});
+            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
         }
     }
 };
-/*
-StrokeSegment.prototype.addNextwardTo = function(points, commands)
-{
-    this.addTo(points, commands, this.next, this.prev);
-};
 
-StrokeSegment.prototype.addPrevwardTo = function(points, commands)
-{
-    this.addTo(points, commands, this.prev, this.next);
-};
-*/
-
-StrokeSegment.prototype.typeEnum = {
-    LINE: 1,
-    CURVE: 2,
+StrokeNode.prototype.typeEnum = {
+    ROUND: 1,
+    FLAT: 2,
+    CAPPED: 3,
+    POINTED: 4,
+    EXTRAPOLATED: 5,
 };

@@ -2,12 +2,13 @@ var VectorApp = VectorApp || {};
 var Nodule = Nodule || {};
 var Stroke = Stroke || {};
 var StrokeSegment = StrokeSegment || {};
+var StrokeNode = StrokeNode || {};
 
 var Pen = {
     label: "Pen",
     id: "pen",
     stroke: null,
-    nextNode: null,
+    nextNodule: null,
     click: function(event)
     {
         if(event.button === 0)//LEFT
@@ -15,21 +16,25 @@ var Pen = {
             if(Pen.stroke === null)
             {
                 console.log("newStroke");
-                Pen.nextNode = Pen.addNoduleAtPointer();
-                Pen.stroke = new Stroke([Pen.nextNode]);
+                Pen.nextNodule = Pen.addNoduleAtPointer();
+                Pen.stroke = new Stroke([Pen.nextNodule]);
+                Pen.nextNodule = Pen.addNoduleAtPointer();
+                Pen.stroke.addToEnd(Pen.nextNodule);
+                //new StrokeSegment(Pen.stroke, Pen.stroke.firstNode, new StrokeNode(Pen.nextNodule));
+                Pen.nextNodule.startDrag();
+                
                 VectorApp.layers.Base.add(Pen.stroke);
-                Pen.nextNode = Pen.addNoduleAtPointer();
-                Pen.stroke.addToEnd(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
-                Pen.nextNode.startDrag();
             }
             else
             {
                 console.log("continueStroke");
-                Pen.nextNode.stopDrag();
-                Pen.nextNode = Pen.addNoduleAtPointer();
-                Pen.stroke.addToEnd(Pen.nextNode, StrokeSegment.prototype.typeEnum.LINE);
-                Pen.nextNode.startDrag();
+                Pen.nextNodule.stopDrag();
+                Pen.nextNodule = Pen.addNoduleAtPointer();
+                Pen.stroke.addToEnd(Pen.nextNodule);
+                //new StrokeSegment(Pen.stroke, Pen.stroke.lastNode, new StrokeNode(Pen.nextNodule));
+                Pen.nextNodule.startDrag();
             }
+            //console.log(this.stroke);
         }
         //addNoduleAtPointer();
     },
@@ -43,13 +48,15 @@ var Pen = {
     },
     contextMenu: function(event)
     {
-        if(Pen.nextNode)
+        if(Pen.nextNodule)
         {
-            Pen.stroke.takeFromEnd();
+            Pen.stroke.lastNode.prev.prev.next = null;
+            Pen.stroke.lastNode.prev = null;
             Pen.stroke.update();
-            Pen.nextNode.stopDrag();
-            Pen.removeNodule(Pen.nextNode);
-            Pen.nextNode = null;
+            
+            Pen.nextNodule.stopDrag();
+            Pen.removeNodule(Pen.nextNodule);
+            Pen.nextNodule = null;
             Pen.stroke = null;
         }
     }

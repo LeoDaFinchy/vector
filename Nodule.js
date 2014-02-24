@@ -17,7 +17,7 @@ function Nodule(x, y)
     this.on('click', this.clicked);
     this.on('dragmove', this.moved);
     this.on('mouseover', this.mouseover);
-    this.strokes = [];
+    this.strokeNodes = [];
 }
 Kinetic.Util.extend(Nodule, Kinetic.Circle);
 
@@ -82,8 +82,8 @@ Nodule.prototype.modRadius = function(r)
 
 Nodule.prototype.updateStrokes = function()
 {
-    for(var s = 0; s < this.strokes.length; s++)
+    for(var s = 0; s < this.strokeNodes.length; s++)
     {
-        this.strokes[s].update();
+        this.strokeNodes[s].stroke.update();
     }
 };

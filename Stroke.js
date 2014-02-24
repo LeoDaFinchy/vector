@@ -1,6 +1,7 @@
 var Kinetic = Kinetic || {};
 var Vector2 = Vector2 || {};
 var StrokeSegment = StrokeSegment || {};
+var StrokeNode = StrokeNode || {};
 
 function Stroke(nodules)
 {
@@ -8,16 +9,24 @@ function Stroke(nodules)
         fill: 'black',
         stroke: 'black',
     });
-    this.segment = new StrokeSegment(this, nodules[0], StrokeSegment.prototype.typeEnum.LINE);
-    this.lastSegment = this.segment;
-    this.sceneFunc(this.drawFunc);
     
+    this.firstNode = new StrokeNode(this, nodules[0]);
+    this.lastNode = this.firstNode;
+    for(var n = 1; n < nodules.length; n++)
+    {
+        new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodules[n]));
+        this.lastNode = this.lastNode.next.next;
+    }
+    //this.segment = new StrokeSegment(this, nodules[0], StrokeSegment.prototype.typeEnum.LINE);
+    //this.lastSegment = this.segment;
+    this.sceneFunc(this.drawFunc);
+    /*
     for(var n = 1; n < nodules.length; n++)
     {
         this.lastSegment.append(new StrokeSegment(this, nodules[n], StrokeSegment.prototype.typeEnum.LINE));
         this.lastSegment = this.lastSegment.next.segment;
     }
-    
+    */
     this.draw = {
         points: [],
         commands: [],
@@ -28,12 +37,18 @@ function Stroke(nodules)
 Kinetic.Util.extend(Stroke, Kinetic.Circle);
 
 Stroke.prototype.drawCommandsEnum = {
-    LINETO: 0,
-    ARC: 1,
-    BEZIERCURVETO: 2,
+    LINETO: 1,
+    ARC: 2,
+    BEZIERCURVETO: 3,
 };
 
-Stroke.prototype.addToEnd = function(nodule, type)
+Stroke.prototype.addToEnd = function(nodule)
+{
+    new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodule));
+    this.lastNode = this.lastNode.next.next;
+};
+
+/*Stroke.prototype.addToEnd = function(nodule, type)
 {
     this.lastSegment.addToEnd(new StrokeSegment(this, nodule, type));
     this.lastSegment = this.lastSegment.next.segment;
@@ -43,7 +58,7 @@ Stroke.prototype.takeFromEnd = function()
 {
     this.lastSegment = this.lastSegment.prev.segment;
     this.lastSegment.takeFromEnd();
-};
+};*/
 
 Stroke.prototype.drawFunc = function(context)
 {
@@ -73,7 +88,6 @@ Stroke.prototype.drawFunc = function(context)
         c++;
     }
     context.closePath();
-    //context.stroke();
     context.fillStrokeShape(this);
 };
 
@@ -81,17 +95,17 @@ Stroke.prototype.refreshDrawFunc = function()
 {
     this.draw.points = [];
     this.draw.commands = [];
-    var s = this.segment;
+    var b = this.firstNode;
     
-    while(s.next.segment)
+    while(b.next)
     {
-        s.addNextwardTo(this.draw.points, this.draw.commands);
-        s = s.next.segment;
+        b.addDrawCommands(this.draw.points, this.draw.commands, true);
+        b = b.next;
     }
-    while(s.prev.segment)
+    while(b.prev)
     {
-        s.addPrevwardTo(this.draw.points, this.draw.commands);
-        s = s.prev.segment;
+        b.addDrawCommands(this.draw.points, this.draw.commands, false);
+        b = b.prev;
     }
 };
 
