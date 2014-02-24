@@ -17,6 +17,7 @@ function Stroke(nodules)
         new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodules[n]));
         this.lastNode = this.lastNode.next.next;
     }
+    this.sceneFunc(this.drawFunc);
     this.draw = {
         points: [],
         commands: [],
