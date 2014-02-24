@@ -20,7 +20,6 @@ var Pen = {
                 Pen.stroke = new Stroke([Pen.nextNodule]);
                 Pen.nextNodule = Pen.addNoduleAtPointer();
                 Pen.stroke.addToEnd(Pen.nextNodule);
-                //new StrokeSegment(Pen.stroke, Pen.stroke.firstNode, new StrokeNode(Pen.nextNodule));
                 Pen.nextNodule.startDrag();
                 
                 VectorApp.layers.Base.add(Pen.stroke);
@@ -31,12 +30,9 @@ var Pen = {
                 Pen.nextNodule.stopDrag();
                 Pen.nextNodule = Pen.addNoduleAtPointer();
                 Pen.stroke.addToEnd(Pen.nextNodule);
-                //new StrokeSegment(Pen.stroke, Pen.stroke.lastNode, new StrokeNode(Pen.nextNodule));
                 Pen.nextNodule.startDrag();
             }
-            //console.log(this.stroke);
         }
-        //addNoduleAtPointer();
     },
     mouseDown: function(event)
     {

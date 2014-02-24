@@ -25,46 +25,6 @@ StrokeNode.prototype.addDrawCommands = function(points, commands, forward)
         next = this.prev;
         prev = this.next;
     }
-    /*
-    var start;
-    var end;
-    var normal;
-    */
-    /*if(!prev.segment) // provide the cap
-    {
-        if(this.prev.join == this.joinEnum.ROUND)
-        {
-            start = 0;
-            end = 0;
-            if(this.type == this.typeEnum.LINE) //does this matter?
-            {
-                normal = Vector2.displacement(this.nodule.getPosition(), next.segment.nodule.getPosition()).normal();
-                end = normal.angle();                                                               //Needs refinement, doesn't take nodule size difference into account
-                start = normal.scale(-1).angle();
-            }
-            points.push(new Vector2(this.nodule.x(), this.nodule.y()));
-            points.push({radius: this.nodule.radius(), start: start, end: end});
-            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
-        }
-    }
-    else*/ //provide the join
-    /*{
-        if(this.prev.join == this.joinEnum.ROUND)
-        {
-            start = 0;
-            end = 0;
-            if(this.type == this.typeEnum.LINE) //does this matter?
-            {
-                normal = Vector2.displacement(this.nodule.getPosition(), next.segment.nodule.getPosition()).normal();
-                end = normal.angle();                                                               //Needs refinement, doesn't take nodule size difference into account
-                normal = Vector2.displacement(prev.segment.nodule.getPosition(), this.nodule.getPosition()).normal();
-                start = normal.angle();
-            }
-            points.push(new Vector2(this.nodule.x(), this.nodule.y()));
-            points.push({radius: this.nodule.radius(), start: start, end: end});
-            commands.push(Stroke.prototype.drawCommandsEnum.ARC);
-        }
-    }*/
     
     var start, prevNode, end, nextNode, normal;
     if(next && prev)

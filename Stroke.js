@@ -17,16 +17,6 @@ function Stroke(nodules)
         new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodules[n]));
         this.lastNode = this.lastNode.next.next;
     }
-    //this.segment = new StrokeSegment(this, nodules[0], StrokeSegment.prototype.typeEnum.LINE);
-    //this.lastSegment = this.segment;
-    this.sceneFunc(this.drawFunc);
-    /*
-    for(var n = 1; n < nodules.length; n++)
-    {
-        this.lastSegment.append(new StrokeSegment(this, nodules[n], StrokeSegment.prototype.typeEnum.LINE));
-        this.lastSegment = this.lastSegment.next.segment;
-    }
-    */
     this.draw = {
         points: [],
         commands: [],
@@ -47,18 +37,6 @@ Stroke.prototype.addToEnd = function(nodule)
     new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodule));
     this.lastNode = this.lastNode.next.next;
 };
-
-/*Stroke.prototype.addToEnd = function(nodule, type)
-{
-    this.lastSegment.addToEnd(new StrokeSegment(this, nodule, type));
-    this.lastSegment = this.lastSegment.next.segment;
-};
-
-Stroke.prototype.takeFromEnd = function()
-{
-    this.lastSegment = this.lastSegment.prev.segment;
-    this.lastSegment.takeFromEnd();
-};*/
 
 Stroke.prototype.drawFunc = function(context)
 {
