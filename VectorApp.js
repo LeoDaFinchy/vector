@@ -26,6 +26,7 @@ var VectorApp = {
         VectorApp.stage.on('mousedown', VectorApp.toolMouseDown);
         VectorApp.stage.on('mousemove', VectorApp.toolMouseMove);
         VectorApp.stage.on('dragstart', VectorApp.toolDragStart);
+        VectorApp.stage.on('dragend', VectorApp.toolDragEnd);
         
         VectorApp.stage.setDraggable(true);
         VectorApp.stage.dragBoundFunc(function(){return{x:this.getAbsolutePosition().x, y:this.getAbsolutePosition().y}});
@@ -96,9 +97,18 @@ var VectorApp = {
     },
     toolDragStart: function(event)
     {
-        console.log("drag");
-    }
-    
+        if(VectorApp.activeTool && VectorApp.activeTool.dragStart)
+        {
+            VectorApp.activeTool.dragStart(event);
+        }
+    },
+    toolDragEnd: function(event)
+    {
+        if(VectorApp.activeTool && VectorApp.activeTool.dragEnd)
+        {
+            VectorApp.activeTool.dragEnd(event);
+        }
+    },
 };
 
 function onMouseWheel(event)
