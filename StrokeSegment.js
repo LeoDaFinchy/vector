@@ -7,6 +7,7 @@ function StrokeSegment(stroke, a, b)
     this.stroke = stroke;
     this.prev = a; a.next = this;
     this.next = b; b.prev = this;
+    this.anchors = [];
     this.type = this.typeEnum.LINE;
 }
 
@@ -39,12 +40,20 @@ StrokeSegment.prototype.getApproachNode = function(node)
         {
             return this.prev.nodule;
         }
+        else if(this.type == this.typeEnum.CURVE)
+        {
+            return this.anchors[this.anchors.length - 1];
+        }
     }
     else
     {
         if(this.type == this.typeEnum.LINE)
         {
             return this.next.nodule;
+        }
+        else if(this.type == this.typeEnum.CURVE)
+        {
+            return this.anchors[0];
         }
     }
 };
