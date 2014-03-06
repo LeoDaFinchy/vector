@@ -4,6 +4,7 @@ var StrokeSegment = StrokeSegment || {};
 
 function StrokeNode(stroke, nodule)
 {
+    this.ID = StrokeNode.prototype.nextID++;
     this.stroke = stroke;
     this.nodule = nodule;
     nodule.strokeNodes.push(this);
@@ -69,6 +70,8 @@ StrokeNode.prototype.addDrawCommands = function(points, commands, forward)
         }
     }
 };
+
+StrokeNode.prototype.nextID = 0;
 
 StrokeNode.prototype.typeEnum = {
     ROUND: 1,
