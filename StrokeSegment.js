@@ -38,7 +38,7 @@ StrokeSegment.prototype.getApproachNode = function(node)
     {
         if(this.type == this.typeEnum.LINE)
         {
-            return this.prev.nodule;
+            return this.prev;
         }
         else if(this.type == this.typeEnum.CURVE)
         {
@@ -49,7 +49,7 @@ StrokeSegment.prototype.getApproachNode = function(node)
     {
         if(this.type == this.typeEnum.LINE)
         {
-            return this.next.nodule;
+            return this.next;
         }
         else if(this.type == this.typeEnum.CURVE)
         {

@@ -33,11 +33,11 @@ StrokeNode.prototype.addDrawCommands = function(points, commands, forward)
         if(this.type == this.typeEnum.ROUND)
         {
             prevNode = prev.getApproachNode(this);
-            normal = Vector2.displacement(prevNode.getPosition(), this.nodule.getPosition()).normal();
+            normal = Vector2.displacement(prevNode.nodule.getPosition(), this.nodule.getPosition()).normal();
             start = normal.angle();                                                             //Needs refinement, doesn't take nodule size difference into account
             
             nextNode = next.getApproachNode(this);
-            normal = Vector2.displacement(this.nodule.getPosition(), nextNode.getPosition()).normal();
+            normal = Vector2.displacement(this.nodule.getPosition(), nextNode.nodule.getPosition()).normal();
             end = normal.angle();
             
             points.push(new Vector2(this.nodule.x(), this.nodule.y()));
@@ -58,10 +58,10 @@ StrokeNode.prototype.addDrawCommands = function(points, commands, forward)
             {
                 nearNode = prev.getApproachNode(this);
             }
-            normal = Vector2.displacement(nearNode.getPosition(), this.nodule.getPosition()).normal();
+            normal = Vector2.displacement(nearNode.nodule.getPosition(), this.nodule.getPosition()).normal();
             start = normal.angle();                                                             //Needs refinement, doesn't take nodule size difference into account
             
-            normal = Vector2.displacement(this.nodule.getPosition(), nearNode.getPosition()).normal();
+            normal = Vector2.displacement(this.nodule.getPosition(), nearNode.nodule.getPosition()).normal();
             end = normal.angle();
             
             points.push(new Vector2(this.nodule.x(), this.nodule.y()));
