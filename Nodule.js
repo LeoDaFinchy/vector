@@ -33,12 +33,12 @@ Nodule.prototype.setNotSelected = function()
 
 Nodule.prototype.setHovered = function()
 {
-    this.fill('#99ccff');
+    this.setFillRGBA([0.6, 0.8, 1.0, 0.5]);
 };
 
 Nodule.prototype.setNotHovered = function()
 {
-    this.fill('#336699');
+    this.setFillRGBA([0.2, 0.6, 1.0, 0.5]);
 };
 
 Nodule.prototype.clicked = function(event)
@@ -87,3 +87,9 @@ Nodule.prototype.updateStrokes = function()
         this.strokeNodes[s].stroke.update();
     }
 };
+
+Nodule.prototype.setFillRGBA = function(rgba)
+{
+    this.fill('rgba(' + Math.round(rgba[0] * 255)+','+Math.round(rgba[1] * 255)+','+Math.round(rgba[2] * 255)+','+rgba[3]+')');
+};
+
