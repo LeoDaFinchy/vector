@@ -62,4 +62,38 @@ Bezier.generalInterpolate = function(v, t)
         }
     }
     return results;
-}
+};
+Bezier.quadraticDerivativeInterpolate = function(a, b, c, t)
+{
+    var results = [];
+    for(var i in t)
+    {
+        var tp = t[i];
+        
+        var r0 = 2 * (tp - 1) * a;
+        var r1 = 2 * (1 - (tp * 2)) * b;
+        var r2 = 2 * tp * c;
+        
+        results.push(r0 + r1 + r2);
+    }
+    return results;
+};
+Bezier.cubicDerivativeInterpolate = function(a, b, c, d, t)
+{
+    var results = [];
+    for(var i in t)
+    {
+        var tp = t[i];
+        var tn = 1 - tp;
+        
+        var r0 = -3 * Math.pow(tn, 2) * a;
+        var r1 = ((3*Math.pow(tn, 2)) - (6*tn*tp)) * b;
+        var r2 = ((6*tn*tp) - (3*Math.pow(tp, 2))) * c;
+        var r3 = 3 * Math.pow(tp, 2) * d;
+        
+        
+        
+        results.push(r0 + r1 + r2 + r3);
+    }
+    return results;
+};
