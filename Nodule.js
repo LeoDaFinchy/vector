@@ -69,7 +69,7 @@ Nodule.prototype.getPosition = function()
 
 Nodule.prototype.modRadius = function(r)
 {
-    Kinetic.Circle.prototype.radius.call(this, Math.max(r, 0.1));
+    Kinetic.Circle.prototype.radius.call(this, Math.max(r, 0.5));
     var nod = this;
     nod.hitFunc(function(context) {
         context.beginPath();
