@@ -37,6 +37,7 @@ Stroke.prototype.addToEnd = function(nodule)
 {
     new StrokeSegment(this, this.lastNode, new StrokeNode(this, nodule));
     this.lastNode = this.lastNode.next.next;
+    this.refreshDrawFunc();
 };
 
 Stroke.prototype.drawFunc = function(context)
