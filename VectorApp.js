@@ -27,6 +27,7 @@ var VectorApp = {
         VectorApp.stage.on('mousemove', VectorApp.toolMouseMove);
         VectorApp.stage.on('dragstart', VectorApp.toolDragStart);
         VectorApp.stage.on('dragend', VectorApp.toolDragEnd);
+        VectorApp.stage.on('dragmove', VectorApp.toolDragMove);
         
         VectorApp.stage.setDraggable(true);
         VectorApp.stage.dragBoundFunc(function(){return{x:this.getAbsolutePosition().x, y:this.getAbsolutePosition().y}});
@@ -87,7 +88,7 @@ var VectorApp = {
     },
     toolContextMenu: function(event)
     {
-        if(VectorApp.activeTool && VectorApp.activeTool.mouseMove)
+        if(VectorApp.activeTool && VectorApp.activeTool.contextMenu)
         {
             VectorApp.activeTool.contextMenu(event);
         }
@@ -100,6 +101,13 @@ var VectorApp = {
         if(VectorApp.activeTool && VectorApp.activeTool.dragStart)
         {
             VectorApp.activeTool.dragStart(event);
+        }
+    },
+    toolDragMove: function(event)
+    {
+        if(VectorApp.activeTool && VectorApp.activeTool.dragMove)
+        {
+            VectorApp.activeTool.dragMove(event);
         }
     },
     toolDragEnd: function(event)
