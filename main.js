@@ -12,7 +12,7 @@ $('document').ready(DocReady);
 function DocReady(event)
 {
     $.getScript("tools/NodeSpawner.js");
-    $.getScript("tools/Pen.js");
+    $.getScript("tools/Pen2.js");
     $.getScript("tools/Select.js");
     
     VectorApp.width = $('#container').width();
