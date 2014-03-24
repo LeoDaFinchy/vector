@@ -2,6 +2,7 @@ var Vector2 = Vector2 || {};
 var Stroke = Stroke || {};
 var StrokeNode = StrokeNode || {};
 var Bezier = Bezier || {};
+var Nodule = Nodule || {};
 
 function StrokeSegment(stroke, a, b)
 {
@@ -93,6 +94,22 @@ StrokeSegment.prototype.getApproachNode = function(node)
             return this.anchors[0];
         }
     }
+};
+
+StrokeSegment.prototype.convertLineToCurve = function(anchor)
+{
+    var displacement = Vector2.displacement(this.prev.nodule.getPosition(), this.next.nodule.getPosition());
+    var a1 = displacement.clone().scale(2/3).add(this.prev.nodule.getPosition());
+    this.anchors = [
+        anchor,
+        new StrokeNode(this.stroke, new Nodule(a1.x, a1.y))
+    ];
+    if(this.anchors[0] === null)
+    {
+        var a2 = displacement.clone().scale(1/3).add(this.prev.nodule.getPosition());
+        this.anchors[0] = new StrokeNode(this.stroke, new Nodule(a2.x, a2.y));
+    }
+    this.type = this.typeEnum.CURVE;
 };
 
 StrokeSegment.prototype.typeEnum = {
